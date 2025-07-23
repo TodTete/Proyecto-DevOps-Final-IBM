@@ -1,8 +1,3 @@
-"""
-Account Service
-
-This microservice handles the lifecycle of Accounts
-"""
 # pylint: disable=unused-import
 from flask import jsonify, request, make_response, abort, url_for   # noqa; F401
 from service.models import Account
@@ -18,6 +13,10 @@ def health():
     """Health Status"""
     return jsonify(dict(status="OK")), status.HTTP_200_OK
 
+def test_get_account_not_found(self):
+    """It should not Read an Account that is not found"""
+    resp = self.client.get(f"{BASE_URL}/0")
+    self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
 ######################################################################
 # GET INDEX
@@ -62,6 +61,17 @@ def create_accounts():
 ######################################################################
 
 # ... place you code here to LIST accounts ...
+@app.route("/accounts/<int:account_id>", methods=["GET"])
+def get_accounts(account_id):
+    """
+    Reads an Account
+    This endpoint will read an Account based on the account_id
+    """
+    app.logger.info("Request to read an Account with id: %s", account_id)
+    account = Account.find(account_id)
+    if not account:
+        abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
+    return account.serialize(), status.HTTP_200_OK
 
 
 ######################################################################
