@@ -1,9 +1,3 @@
-"""
-Package: service
-Package for the application models and service routes
-This module creates and configures the Flask app and sets up the logging
-and SQL database
-"""
 import sys
 from flask import Flask
 from service import config
@@ -17,8 +11,6 @@ talisman = Talisman(app)
 CORS(app)
 app.config.from_object(config)
 
-# Import the routes After the Flask app is created
-# pylint: disable=wrong-import-position, cyclic-import, wrong-import-order
 from service import routes, models  # noqa: F401 E402
 
 # pylint: disable=wrong-import-position
