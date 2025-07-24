@@ -70,14 +70,11 @@ class TestAccountService(TestCase):
         """Runs once after each test case"""
         db.session.remove()
 
-    def test_cors_security(self):
-       """Debería devolver un encabezado CORS"""
+    def test_homepage(self):
+        """Debería mostrar la página de inicio"""
         response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
-    ######################################################################
-    #  H E L P E R   M E T H O D S
-    ######################################################################
 
     def _create_accounts(self, count):
         """Factory method to create accounts in bulk"""
